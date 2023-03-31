@@ -44,7 +44,6 @@ const Vote = () => {
       const response = await axios.get(
         `https://e-voting-server-sfbu.herokuapp.com/fetchTotalVotes`
       );
-      console.log(response);
       setIsLoading(false);
       if (response.status === 200) {
         setSummaryDetails(response.data);

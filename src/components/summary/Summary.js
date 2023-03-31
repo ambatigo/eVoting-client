@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import navya from "../../assets/navya.jpeg";
 import himavanth from "../../assets/himavanth.jpeg";
 import rahul from "../../assets/rahul.jpeg";
@@ -6,7 +6,6 @@ import adminBuilding from "../../assets/admin.jpg";
 import matterJson from "../../matter.json";
 
 const Summary = ({ summaryDetails }) => {
-  console.log(summaryDetails);
   const { totalVotes, votes } = summaryDetails;
 
   function fetchVoteCount(id) {
