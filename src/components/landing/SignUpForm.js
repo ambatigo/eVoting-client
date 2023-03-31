@@ -1,112 +1,168 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchToken } from "../../utils/loginUtils";
+import axios from "axios";
+import ToastComponent from "../common/ToastComponent";
+import sfbu from "../../assets/sfbu.jpeg";
 
-class SignUpForm extends Component {
-  constructor() {
-    super();
+const SignUpForm = () => {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+    name: "",
+    userId: "",
+  });
 
-    this.state = {
-      email: "",
-      password: "",
-      name: "",
-      userId: "",
-    };
+  const [toast, setToast] = useState({
+    showToasty: false,
+    msg: "",
+    color: "red",
+  });
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const navigate = useNavigate();
 
-  handleChange(event) {
+  useEffect(() => {
+    const token = fetchToken();
+    console.log(token);
+    if (token != null) {
+      navigate("/");
+    }
+  }, []);
+
+  const handleChange = (event) => {
     let target = event.target;
     let value = target.value;
     let name = target.name;
 
-    this.setState({
-      [name]: value,
-    });
-  }
+    setUser({ ...user, [name]: value });
+  };
 
-  handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const data = await axios.post(
+        "https://e-voting-server-sfbu.herokuapp.com/signUp",
+        user
+      );
+      if (data.status === 200) {
+        localStorage.setItem("token", data.data);
+        setToast({
+          showToasty: true,
+          msg: data.data,
+          color: "green",
+        });
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error.response.data);
+      setToast({
+        showToasty: true,
+        msg: error.response.data,
+        color: "red",
+      });
+    }
+  };
 
-    console.log("The form was submitted with the following data:");
-    console.log(this.state);
-  }
+  const onHideToast = () => {
+    setToast({
+      showToasty: false,
+      msg: "",
+      color: "red",
+    });
+  };
 
-  render() {
-    return (
-      <div className="row">
-        <div className="offset-6 col-6">
-          <div className="formCenter">
-            <form onSubmit={this.handleSubmit} className="formFields">
-              <div className="formField">
-                <label className="formFieldLabel" htmlFor="name">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="formFieldInput"
-                  placeholder="Enter your full name"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="formField">
-                <label className="formFieldLabel" htmlFor="userId">
-                  User Id
-                </label>
-                <input
-                  type="text"
-                  id="userId"
-                  className="formFieldInput"
-                  placeholder="Enter your user Id"
-                  name="userId"
-                  value={this.state.userId}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="formField">
-                <label className="formFieldLabel" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  className="formFieldInput"
-                  placeholder="Enter your password"
-                  name="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="formField">
-                <label className="formFieldLabel" htmlFor="email">
-                  E-Mail Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="formFieldInput"
-                  placeholder="Enter your email"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                />
-              </div>
-
-              <div className="formField">
-                <button className="formFieldButton">Sign Up</button>{" "}
-                <Link to="/sign-in" className="formFieldLink">
-                  I'm already member
-                </Link>
-              </div>
-            </form>
-          </div>
-        </div>
+  return (
+    <div className="row">
+      <div className="col-6" style={{ marginTop: "100px" }}>
+        <img
+          width={400}
+          src={sfbu}
+          alt="evoting logo"
+          className="signup-logo"
+        />
       </div>
-    );
-  }
-}
+      <div className="col-6">
+        <div className="formCenter">
+          <form onSubmit={(e) => handleSubmit(e)} className="formFields">
+            <div className="formField">
+              <label className="formFieldLabel" htmlFor="name">
+                Full Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                className="formFieldInput"
+                placeholder="Enter your full name"
+                name="name"
+                value={user.name}
+                onChange={(e) => handleChange(e)}
+                required
+              />
+            </div>
+            <div className="formField">
+              <label className="formFieldLabel" htmlFor="userId">
+                User Id
+              </label>
+              <input
+                type="text"
+                id="userId"
+                className="formFieldInput"
+                placeholder="Enter your user Id"
+                name="userId"
+                value={user.userId}
+                onChange={(e) => handleChange(e)}
+                required
+              />
+            </div>
+            <div className="formField">
+              <label className="formFieldLabel" htmlFor="password">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                className="formFieldInput"
+                placeholder="Enter your password"
+                name="password"
+                value={user.password}
+                onChange={(e) => handleChange(e)}
+                required
+              />
+            </div>
+            <div className="formField">
+              <label className="formFieldLabel" htmlFor="email">
+                E-Mail Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="formFieldInput"
+                placeholder="Enter your email"
+                name="email"
+                value={user.email}
+                onChange={(e) => handleChange(e)}
+                required
+              />
+            </div>
+
+            <div className="formField">
+              <button className="formFieldButton me-3">Sign Up</button>
+
+              <Link to={"/login"}>I'm already member</Link>
+            </div>
+          </form>
+        </div>
+        {toast.showToasty && (
+          <ToastComponent
+            color={toast.color}
+            showToast={toast.showToasty}
+            msg={toast.msg}
+            onHide={onHideToast}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default SignUpForm;
