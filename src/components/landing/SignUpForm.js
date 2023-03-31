@@ -21,13 +21,12 @@ const SignUpForm = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = fetchToken();
-    console.log(token);
-    if (token != null) {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = fetchToken();
+  //   if (token != null) {
+  //     navigate("/vote");
+  //   }
+  // }, []);
 
   const handleChange = (event) => {
     let target = event.target;
@@ -72,7 +71,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="row">
+    <div className="row landing-row">
       <div className="col-6" style={{ marginTop: "100px" }}>
         <img
           width={400}
@@ -82,7 +81,7 @@ const SignUpForm = () => {
         />
       </div>
       <div className="col-6">
-        <div className="formCenter">
+        <div className="formCenter mt-4">
           <form onSubmit={(e) => handleSubmit(e)} className="formFields">
             <div className="formField">
               <label className="formFieldLabel" htmlFor="name">

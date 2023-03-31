@@ -6,26 +6,30 @@ import Vote from "./components/vote/Vote";
 import Nav from "./components/common/Nav";
 import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/common/PageNotFound";
-import ToastComponent from "./components/common/ToastComponent";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { fetchToken } from "./utils/loginUtils";
 
 function App() {
-  return (
-    // <Router>
-    //   <div className="App">
-    //     <Nav />
+  const navigate = useNavigate();
+  const [loggedIn, setloggedIn] = useState(false);
 
-    //     {/* <SignInForm /> */}
-    //     <SignUpForm />
-    //     {/* <Contact /> */}
-    //     {/* {<Vote />} */}
-    //   </div>
-    // </Router>
+  useEffect(() => {
+    const token = fetchToken();
+    if (token !== null) {
+      setloggedIn(true);
+    } else {
+      navigate("/");
+    }
+  }, []);
+
+  return (
     <div className="App">
-      <Nav />
+      {loggedIn && <Nav />}
       <Routes>
         <Route path="/" element={<SignInForm />} />
         <Route path="login" element={<SignInForm />} />
-        <Route path="/sign-up" element={<SignUpForm />} />
+        <Route path="sign-up" element={<SignUpForm />} />
         <Route path="vote" element={<Vote />} />
         <Route path="contact" element={<Contact />} />
         <Route path="*" element={<PageNotFound />} />

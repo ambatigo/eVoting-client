@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import GMap from "./GMap";
 import gowtham from "../../assets/gowtham.jpeg";
+import { useNavigate } from "react-router-dom";
+import { fetchToken } from "../../utils/loginUtils";
 
 const Contact = () => {
   const [query, setQuery] = useState({ myName: "", msg: "" });
+
+  useEffect(() => {
+    const token = fetchToken();
+    if (token != null) {
+      navigate("/");
+    }
+  }, []);
+
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     const type = e.target.name;
