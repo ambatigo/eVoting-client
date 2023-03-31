@@ -60,7 +60,7 @@ const SignInForm = () => {
         navigate("/vote");
       }
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error);
       setToast({
         showToasty: true,
         msg: error.response.data,

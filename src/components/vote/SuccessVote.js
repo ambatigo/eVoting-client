@@ -7,7 +7,6 @@ import matterJson from "../../matter.json";
 import adminBuilding from "../../assets/admin.jpg";
 
 const SuccessVote = ({ selectedVoterId }) => {
-  console.log(typeof selectedVoterId);
   const matter = ((id) => {
     return matterJson.filter((matter) => matter.id === id)[0];
   })(selectedVoterId);

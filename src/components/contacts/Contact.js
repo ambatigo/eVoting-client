@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import GMap from "./GMap";
 import gowtham from "../../assets/gowtham.jpeg";
-import { useNavigate } from "react-router-dom";
 import { fetchUserId } from "../../utils/loginUtils";
 import ToastComponent from "../common/ToastComponent";
 import axios from "axios";
@@ -19,8 +18,6 @@ const Contact = () => {
     const userId = fetchUserId();
     setUserId(userId);
   }, []);
-
-  const navigate = useNavigate();
 
   const onChange = (e) => {
     const type = e.target.name;

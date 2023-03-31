@@ -1,6 +1,5 @@
 {
   "name": "sbfu",
-  "homepage": "https://subhamagarwal46.github.io/sfbu-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

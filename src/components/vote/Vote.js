@@ -19,11 +19,9 @@ const Vote = () => {
       const response = await axios.get(
         `https://e-voting-server-sfbu.herokuapp.com/fetchVoteStatus/${userId}`
       );
-      console.log(response);
       setIsLoading(false);
       if (response.status === 200) {
         setCastVoteStatus(true);
-        console.log({ voterId: response.data });
         setSelectedVoterId(response.data);
       }
     } catch (error) {
