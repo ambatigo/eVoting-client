@@ -2,16 +2,25 @@ import React, { useState, useEffect } from "react";
 import CastVote from "./CastVote";
 import SuccessVote from "./SuccessVote";
 import axios from "axios";
+import Summary from "../summary/Summary";
 
 const Vote = () => {
   const userId = localStorage.getItem("userId");
   const [isCastVote, setCastVoteStatus] = useState(false);
   const [selectedVoterId, setSelectedVoterId] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [summaryDetails, setSummaryDetails] = useState({
+    totalVotes: 0,
+    votes: [],
+  });
 
   useEffect(() => {
     setIsLoading(true);
-    initialiseVote();
+    if (userId !== "admin") {
+      initialiseVote();
+    } else {
+      initialiseSummary();
+    }
   }, []);
 
   async function initialiseVote() {
@@ -30,11 +39,38 @@ const Vote = () => {
     }
   }
 
+  async function initialiseSummary() {
+    try {
+      const response = await axios.get(
+        `https://e-voting-server-sfbu.herokuapp.com/fetchTotalVotes`
+      );
+      console.log(response);
+      setIsLoading(false);
+      if (response.status === 200) {
+        setSummaryDetails(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  }
+
   const castVote = () => {
     initialiseVote();
   };
 
-  if (isLoading) return <div>Loading</div>;
+  if (isLoading)
+    return (
+      <>
+        <h2>Feching data...</h2>
+        <div className="spinner-border" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </>
+    );
+
+  if (userId === "admin" && !isLoading)
+    return <Summary summaryDetails={summaryDetails} />;
 
   return (
     <div>

@@ -8,20 +8,20 @@ import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/common/PageNotFound";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchToken } from "./utils/loginUtils";
 
 function App() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [loggedIn, setloggedIn] = useState(false);
 
   useEffect(() => {
-    const token = fetchToken();
     if (token !== null) {
       setloggedIn(true);
     } else {
+      setloggedIn(false);
       navigate("/");
     }
-  }, []);
+  }, [token, navigate]);
 
   return (
     <div className="App">
