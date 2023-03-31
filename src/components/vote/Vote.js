@@ -1,21 +1,52 @@
 import React, { useState, useEffect } from "react";
 import CastVote from "./CastVote";
 import SuccessVote from "./SuccessVote";
-import { fetchToken } from "../../utils/loginUtils";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Vote = () => {
-  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
+  const [isCastVote, setCastVoteStatus] = useState(false);
+  const [selectedVoterId, setSelectedVoterId] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const token = fetchToken();
-  //   if (token == null) {
-  //     navigate("/");
-  //   }
-  // }, []);
+  useEffect(() => {
+    setIsLoading(true);
+    initialiseVote();
+  }, []);
 
-  const [isCastVote, setCastVoteStatus] = useState(true);
-  return <div>{isCastVote ? <SuccessVote /> : <CastVote />}</div>;
+  async function initialiseVote() {
+    try {
+      const response = await axios.get(
+        `https://e-voting-server-sfbu.herokuapp.com/fetchVoteStatus/${userId}`
+      );
+      console.log(response);
+      setIsLoading(false);
+      if (response.status === 200) {
+        setCastVoteStatus(true);
+        console.log({ voterId: response.data });
+        setSelectedVoterId(response.data);
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  }
+
+  const castVote = () => {
+    initialiseVote();
+  };
+
+  if (isLoading) return <div>Loading</div>;
+
+  return (
+    <div>
+      {isCastVote ? (
+        <SuccessVote selectedVoterId={selectedVoterId} />
+      ) : (
+        <CastVote userId={userId} castVote={castVote} />
+      )}
+    </div>
+  );
 };
 
 export default Vote;

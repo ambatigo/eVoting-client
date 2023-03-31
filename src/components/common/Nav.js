@@ -6,6 +6,7 @@ const Nav = () => {
   const navigate = useNavigate();
   const onClickLogOut = () => {
     localStorage.clear("token");
+    localStorage.clear("userId");
     navigate("/");
   };
 

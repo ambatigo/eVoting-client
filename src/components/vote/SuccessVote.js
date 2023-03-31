@@ -6,10 +6,12 @@ import sfbu from "../../assets/sfbu.jpeg";
 import matterJson from "../../matter.json";
 import adminBuilding from "../../assets/admin.jpg";
 
-const SuccessVote = () => {
-  const matter = ((name) => {
-    return matterJson.filter((matter) => matter.name === name)[0];
-  })("navya");
+const SuccessVote = ({ selectedVoterId }) => {
+  console.log(typeof selectedVoterId);
+  const matter = ((id) => {
+    return matterJson.filter((matter) => matter.id === id)[0];
+  })(selectedVoterId);
+
   function fetchMatterImage(name) {
     let myimg = undefined;
     switch (name) {
@@ -27,6 +29,7 @@ const SuccessVote = () => {
     }
     return myimg;
   }
+
   return (
     <div style={{ backgroundImage: `url(${adminBuilding})`, height: "90vh" }}>
       <div className="pt-3 mb-4" id="glowing-txt">

@@ -154,7 +154,7 @@ const SignUpForm = () => {
         {toast.showToasty && (
           <ToastComponent
             color={toast.color}
-            showToast={toast.showToasty}
+            showToasty={toast.showToasty}
             msg={toast.msg}
             onHide={onHideToast}
           />

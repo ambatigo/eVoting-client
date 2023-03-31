@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import navya from "../../assets/navya.jpeg";
 import himavanth from "../../assets/himavanth.jpeg";
 import rahul from "../../assets/rahul.jpeg";
 import adminBuilding from "../../assets/admin.jpg";
 import matterJson from "../../matter.json";
 import capitalizeName from "../../utils/voteUtils";
+import ToastComponent from "../common/ToastComponent";
+import axios from "axios";
 
-const CastVote = () => {
+const CastVote = ({ userId, castVote }) => {
+  const [toast, setToast] = useState({
+    showToasty: false,
+    msg: "",
+    color: "red",
+  });
+
   function fetchMatterImage(name) {
     let myimg = undefined;
     switch (name) {
@@ -24,6 +32,39 @@ const CastVote = () => {
     }
     return myimg;
   }
+  const onHideToast = () => {
+    setToast({
+      showToasty: false,
+      msg: "",
+      color: "red",
+    });
+  };
+
+  const onCastVote = async (voterId) => {
+    try {
+      const req = { userId, voterId };
+      const response = await axios.post(
+        "https://e-voting-server-sfbu.herokuapp.com/castVote",
+        req
+      );
+      if (response.status === 200) {
+        setToast({
+          showToasty: true,
+          msg: response.data,
+          color: "green",
+        });
+        castVote();
+      }
+    } catch (error) {
+      console.log(error);
+      setToast({
+        showToasty: true,
+        msg: error.response.data,
+        color: "red",
+      });
+    }
+  };
+
   return (
     <div style={{ backgroundImage: `url(${adminBuilding})` }}>
       <h1 className="pt-3 mb-4" style={{ color: "#ffffff", fontWeight: 600 }}>
@@ -51,7 +92,12 @@ const CastVote = () => {
                       {matter.summary}
                     </i>
                     <p className="card-text mt-5">
-                      <button className="btn btn-lg btn-success">
+                      <button
+                        className="btn btn-lg btn-success"
+                        onClick={() => {
+                          onCastVote(matter.id);
+                        }}
+                      >
                         Vote for {capitalizeName(matter.name)}
                       </button>
                     </p>
@@ -62,6 +108,14 @@ const CastVote = () => {
           </div>
         ))}
       </div>
+      {toast.showToasty && (
+        <ToastComponent
+          color={toast.color}
+          showToasty={toast.showToasty}
+          msg={toast.msg}
+          onHide={onHideToast}
+        />
+      )}
     </div>
   );
 };

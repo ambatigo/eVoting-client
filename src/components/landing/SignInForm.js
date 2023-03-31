@@ -51,6 +51,7 @@ const SignInForm = () => {
       );
       if (data.status === 200) {
         localStorage.setItem("token", data.data);
+        localStorage.setItem("userId", user.userId);
         setToast({
           showToasty: true,
           msg: data.data,
@@ -129,7 +130,7 @@ const SignInForm = () => {
           {toast.showToasty && (
             <ToastComponent
               color={toast.color}
-              showToast={toast.showToasty}
+              showToasty={toast.showToasty}
               msg={toast.msg}
               onHide={onHideToast}
             />

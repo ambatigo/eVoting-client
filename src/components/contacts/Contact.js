@@ -2,16 +2,22 @@ import React, { useState, useEffect } from "react";
 import GMap from "./GMap";
 import gowtham from "../../assets/gowtham.jpeg";
 import { useNavigate } from "react-router-dom";
-import { fetchToken } from "../../utils/loginUtils";
+import { fetchUserId } from "../../utils/loginUtils";
+import ToastComponent from "../common/ToastComponent";
+import axios from "axios";
 
 const Contact = () => {
   const [query, setQuery] = useState({ myName: "", msg: "" });
+  const [userId, setUserId] = useState("");
+  const [toast, setToast] = useState({
+    showToasty: false,
+    msg: "",
+    color: "red",
+  });
 
   useEffect(() => {
-    const token = fetchToken();
-    if (token != null) {
-      navigate("/");
-    }
+    const userId = fetchUserId();
+    setUserId(userId);
   }, []);
 
   const navigate = useNavigate();
@@ -21,9 +27,37 @@ const Contact = () => {
     setQuery((query) => ({ ...query, [type]: e.target.value.trim() }));
   };
 
-  const onClickSend = (e) => {
+  const onClickSend = async (e) => {
     e.preventDefault();
-    console.log(query);
+    const req = { ...query, userId: userId };
+    try {
+      const data = await axios.post(
+        "https://e-voting-server-sfbu.herokuapp.com/queryUs",
+        req
+      );
+      if (data.status === 200) {
+        setToast({
+          showToasty: true,
+          msg: data.data,
+          color: "green",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setToast({
+        showToasty: true,
+        msg: error.response.data,
+        color: "red",
+      });
+    }
+  };
+
+  const onHideToast = () => {
+    setToast({
+      showToasty: false,
+      msg: "",
+      color: "red",
+    });
   };
 
   return (
@@ -85,6 +119,7 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
       <div className="query my-5">
         <div className="row text-start">
           <div className="col-3 offset-3">
@@ -107,6 +142,7 @@ const Contact = () => {
               Fri, 8:00-22:00
             </div>
           </div>
+
           <div className="col-5 offset-1">
             <h4 className="">Send us message</h4>
             <form style={{ width: "70%" }} onSubmit={(e) => onClickSend(e)}>
@@ -137,6 +173,14 @@ const Contact = () => {
               </button>
             </form>
           </div>
+          {toast.showToasty && (
+            <ToastComponent
+              color={toast.color}
+              showToasty={toast.showToasty}
+              msg={toast.msg}
+              onHide={onHideToast}
+            />
+          )}
         </div>
       </div>
     </div>
