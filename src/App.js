@@ -44,9 +44,9 @@ function App() {
           </div>
         </nav>
         {/* <SignInForm /> */}
-        {/* <SignUpForm /> */}
+        <SignUpForm />
         {/* <Contact /> */}
-        {<Vote />}
+        {/* {<Vote />} */}
       </div>
     </Router>
   );
