@@ -7,10 +7,12 @@ import Nav from "./components/common/Nav";
 import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/common/PageNotFound";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const token = localStorage.getItem("token");
   const [loggedIn, setloggedIn] = useState(false);
 
@@ -19,7 +21,9 @@ function App() {
       setloggedIn(true);
     } else {
       setloggedIn(false);
-      navigate("/");
+      if (location.pathname !== "/sign-up") {
+        navigate("/");
+      }
     }
   }, [token, navigate]);
 
