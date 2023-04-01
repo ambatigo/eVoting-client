@@ -200,6 +200,8 @@
   border-radius: 50%;
   background: green;
   padding: 4px;
+  left: 30px;
+  top: -45px;
 }
 
 
@@ -216,8 +218,8 @@
 
 .success-vote-img4{
   position: absolute;
-  left: 64%;
-  top: -38%;
+  left: 78%;
+  top: -90%;
 }
 
 

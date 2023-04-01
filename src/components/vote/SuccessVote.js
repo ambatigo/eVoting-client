@@ -59,18 +59,11 @@ const SuccessVote = ({ selectedVoterId }) => {
                   >
                     {matter.summary}
                   </i>
-                  <p
-                    className="card-text mt-5 text-end pe-4  "
-                    style={{ position: "relative" }}
-                  >
-                    <i
-                      className="fa fa-check fa-2x success-vote-img1"
-                      aria-hidden="true"
-                    ></i>
+                  <p className="card-text mt-5 text-end pe-4  ">
                     <img
-                      className="success-vote-stamp success-vote-img4"
-                      width={150}
-                      height={150}
+                      className="success-vote-stamp "
+                      width={100}
+                      height={100}
                       src={sfbu}
                       alt={sfbu}
                     />
