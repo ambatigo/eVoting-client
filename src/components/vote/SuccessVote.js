@@ -59,7 +59,7 @@ const SuccessVote = ({ selectedVoterId }) => {
                   >
                     {matter.summary}
                   </i>
-                  <p className="card-text mt-5 text-end pe-4  ">
+                  <p className="card-text mt-2 text-end pe-4  ">
                     <img
                       className="success-vote-stamp "
                       width={100}
