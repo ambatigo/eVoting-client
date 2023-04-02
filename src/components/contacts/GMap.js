@@ -31,7 +31,7 @@ export default function GMap() {
   return (
     // Important! Always set the container height explicitly
     <div style={{ height: "50vh", width: "100%" }}>
-      <GoogleMapReact
+      {/* <GoogleMapReact
         bootstrapURLKeys={{ key: "" }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
@@ -41,7 +41,22 @@ export default function GMap() {
           lng={-121.92788771891232}
           text="161 Mission Falls Lane, Fremont"
         />
-      </GoogleMapReact>
+      </GoogleMapReact> */}
+      <div class="mapouter">
+        <div class="gmap_canvas">
+          <iframe
+            width="100%"
+            height="350"
+            id="gmap_canvas"
+            src="https://maps.google.com/maps?q=161%20mission%20falls%20ln%20fremont&t=&z=13&ie=UTF8&iwloc=&output=embed"
+            frameborder="0"
+            title="maps"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+          ></iframe>
+        </div>
+      </div>
     </div>
   );
 }

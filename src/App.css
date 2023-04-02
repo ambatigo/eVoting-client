@@ -253,4 +253,18 @@
   height: 100vh;
 }
 
+.gmap_canvas{
+              overflow: hidden;
+              background: none !important;
+              height: "500px";
+              width: "600px";
+            }
+
+.mapouter{
+  position: "relative";
+  text-align: "right"l;
+  height: "500px";
+  width: "600px"
+}
+
 
