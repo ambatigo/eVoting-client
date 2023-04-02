@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import GMap from "./GMap";
 import gowtham from "../../assets/gowtham.jpeg";
+import depali from "../../assets/depali.jpeg";
+import rakesh from "../../assets/rakesh.jpeg";
 import { fetchUserId } from "../../utils/loginUtils";
 import ToastComponent from "../common/ToastComponent";
 import axios from "axios";
@@ -68,48 +70,51 @@ const Contact = () => {
               src={gowtham}
               className="card-img-top"
               alt={gowtham}
+              height={450}
               style={{ padding: "20px", borderRadius: "50%" }}
             />
             <div className="card-body">
               <h5 className="card-title">Gowtham Ambati</h5>
-              <p className="card-text">Software Engineer</p>
+              <p className="card-text">Project Manager</p>
               <p className="card-text">
                 <small className="text-muted">
-                  Passionate on designing the website.
+                  Responsible for managing the entire project.
                 </small>
               </p>
             </div>
           </div>
           <div className="card">
             <img
-              src={gowtham}
+              src={depali}
               className="card-img-top"
-              alt={gowtham}
+              alt={depali}
+              height={450}
               style={{ padding: "20px", borderRadius: "50%" }}
             />
             <div className="card-body">
-              <h5 className="card-title">Gowtham Ambati</h5>
-              <p className="card-text">Software Engineer</p>
+              <h5 className="card-title">Depali Gajera</h5>
+              <p className="card-text">Developer</p>
               <p className="card-text">
                 <small className="text-muted">
-                  Passionate on designing the website.
+                  Passionate on development of the website.
                 </small>
               </p>
             </div>
           </div>
           <div className="card">
             <img
-              src={gowtham}
+              src={rakesh}
               className="card-img-top"
-              alt={gowtham}
+              alt={rakesh}
+              height={450}
               style={{ padding: "20px", borderRadius: "50%" }}
             />
             <div className="card-body">
-              <h5 className="card-title">Gowtham Ambati</h5>
-              <p className="card-text">Software Engineer</p>
+              <h5 className="card-title">Rakesh Kasha</h5>
+              <p className="card-text">Lead Tester</p>
               <p className="card-text">
                 <small className="text-muted">
-                  Passionate on designing the website.
+                  Responsible for quality testing of the project.
                 </small>
               </p>
             </div>

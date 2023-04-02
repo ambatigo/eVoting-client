@@ -92,13 +92,13 @@ const SignInForm = () => {
           <form className="formFields" onSubmit={(e) => handleSubmit(e)}>
             <div className="formField">
               <label className="formFieldLabel" htmlFor="userId">
-                User Id
+                Student Id
               </label>
               <input
                 type="text"
                 id="userId"
                 className="formFieldInput"
-                placeholder="Enter your user Id"
+                placeholder="Enter your student Id"
                 name="userId"
                 value={user.userId}
                 onChange={(e) => handleChange(e)}
