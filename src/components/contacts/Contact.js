@@ -63,7 +63,7 @@ const Contact = () => {
     <div className="mb-5">
       <GMap />
       <div className="organizer my-4">
-        <h2>Meet our Organizers</h2>
+        <h2>Meet our Team members</h2>
         <div className="card-group mx-3">
           <div className="card">
             <img
