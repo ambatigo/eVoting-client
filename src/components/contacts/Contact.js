@@ -141,7 +141,7 @@ const Contact = () => {
             </div>
             <div>
               <i className="fa fa-clock-o me-2" aria-hidden="true"></i>Mon -
-              Fri, 8:00-22:00
+              Fri, 8:00am - 6:00pm
             </div>
           </div>
 

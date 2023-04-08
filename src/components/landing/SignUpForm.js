@@ -12,6 +12,11 @@ const SignUpForm = () => {
     userId: "",
   });
 
+  const [error, setError] = useState({
+    userIdError: false,
+    emailError: false,
+  });
+
   const [toast, setToast] = useState({
     showToasty: false,
     msg: "",
@@ -37,6 +42,18 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (user.userId.length !== 5) {
+      setError({ ...error, userIdError: true });
+      return;
+    } else {
+      setError({ ...error, userIdError: false });
+    }
+    if (!user.email.includes("@student.sfbu.edu")) {
+      setError({ ...error, emailError: true });
+      return;
+    } else {
+      setError({ ...error, emailError: false });
+    }
     try {
       const data = await axios.post(
         "https://e-voting-server-sfbu.herokuapp.com/signUp",
@@ -112,6 +129,11 @@ const SignUpForm = () => {
                 onChange={(e) => handleChange(e)}
                 required
               />
+              {error && error.userIdError && (
+                <small style={{ color: "red" }}>
+                  Invalid studentId. Please enter a valid userId.
+                </small>
+              )}
             </div>
             <div className="formField">
               <label className="formFieldLabel" htmlFor="password">
@@ -127,6 +149,11 @@ const SignUpForm = () => {
                 onChange={(e) => handleChange(e)}
                 required
               />
+              {error && error.emailError && (
+                <small style={{ color: "red" }}>
+                  Invalid email. Please enter a valid email.
+                </small>
+              )}
             </div>
             <div className="formField">
               <label className="formFieldLabel" htmlFor="email">
