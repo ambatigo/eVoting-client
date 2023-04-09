@@ -5,10 +5,11 @@ import ToastComponent from "../common/ToastComponent";
 import sfbu from "../../assets/sfbu.jpeg";
 import { fetchToken } from "../../utils/loginUtils";
 
-const SignInForm = () => {
+const ForgotPassword = () => {
   const [user, setUser] = useState({
     userId: "",
     password: "",
+    otp: "",
   });
 
   const [toast, setToast] = useState({
@@ -24,7 +25,16 @@ const SignInForm = () => {
     if (token != null) {
       navigate("/vote");
     }
+    sendForOTP();
   }, []);
+
+  const sendForOTP = async () => {
+    try {
+      const data = await axios.post(
+        `https://e-voting-server-sfbu.herokuapp.com/generate-otp/${user.userId}`
+      );
+    } catch (error) {}
+  };
 
   const handleChange = (event) => {
     const target = event.target;
@@ -46,18 +56,16 @@ const SignInForm = () => {
     event.preventDefault();
     try {
       const data = await axios.post(
-        "https://e-voting-server-sfbu.herokuapp.com/signIn",
+        "https://e-voting-server-sfbu.herokuapp.com/reset-otp",
         user
       );
       if (data.status === 200) {
-        localStorage.setItem("token", data.data);
-        localStorage.setItem("userId", user.userId);
         setToast({
           showToasty: true,
           msg: data.data,
           color: "green",
         });
-        navigate("/vote");
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
@@ -107,14 +115,30 @@ const SignInForm = () => {
             </div>
 
             <div className="formField">
+              <label className="formFieldLabel" htmlFor="otp">
+                OTP
+              </label>
+              <input
+                type="text"
+                id="otp"
+                className="formFieldInput"
+                placeholder="Enter the otp"
+                name="otp"
+                value={user.otp}
+                onChange={(e) => handleChange(e)}
+                required
+              />
+            </div>
+
+            <div className="formField">
               <label className="formFieldLabel" htmlFor="password">
-                Password
+                New Password
               </label>
               <input
                 type="password"
                 id="password"
                 className="formFieldInput"
-                placeholder="Enter your password"
+                placeholder="Enter your new password"
                 name="password"
                 value={user.password}
                 onChange={(e) => handleChange(e)}
@@ -123,12 +147,9 @@ const SignInForm = () => {
             </div>
 
             <div className="formField">
-              <button className="formFieldButton me-3">Sign In</button>
-              <Link to={"/sign-up"} style={{ marginLeft: "18px" }}>
-                Create an account
-              </Link>
-              <Link to={"/forgot-password"} style={{ marginLeft: "32px" }}>
-                Forgot Password ?
+              <button className="formFieldButton me-3">Reset Password</button>
+              <Link to={"/"} style={{ marginLeft: "18px" }}>
+                Cancel
               </Link>
             </div>
           </form>
@@ -146,4 +167,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default ForgotPassword;

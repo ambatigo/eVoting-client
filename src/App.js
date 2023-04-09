@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import PageNotFound from "./components/common/PageNotFound";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import ForgotPassword from "./components/landing/ForgotPassword";
 
 function App() {
   const navigate = useNavigate();
@@ -21,7 +22,10 @@ function App() {
       setloggedIn(true);
     } else {
       setloggedIn(false);
-      if (location.pathname !== "/sign-up") {
+      if (
+        location.pathname !== "/sign-up" &&
+        location.pathname !== "/forgot-password"
+      ) {
         navigate("/");
       }
     }
@@ -34,6 +38,7 @@ function App() {
         <Route path="/" element={<SignInForm />} />
         <Route path="login" element={<SignInForm />} />
         <Route path="sign-up" element={<SignUpForm />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="vote" element={<Vote />} />
         <Route path="contact" element={<Contact />} />
         <Route path="*" element={<PageNotFound />} />
