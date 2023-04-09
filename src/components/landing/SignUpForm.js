@@ -12,10 +12,8 @@ const SignUpForm = () => {
     userId: "",
   });
 
-  const [error, setError] = useState({
-    userIdError: false,
-    emailError: false,
-  });
+  const [userIDError, setUserIdError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
 
   const [toast, setToast] = useState({
     showToasty: false,
@@ -42,18 +40,23 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (user.userId.length !== 5) {
-      setError({ ...error, userIdError: true });
+    const reg = new RegExp(/^\d{5}$/);
+    if (!reg.test(user.userId) || !user.email.includes("@student.sfbu.edu")) {
+      if (!user.email.includes("@student.sfbu.edu")) {
+        setEmailError(true);
+      } else {
+        setEmailError(false);
+      }
+      if (!reg.test(user.userId)) {
+        setUserIdError(true);
+      } else {
+        setUserIdError(false);
+      }
+      console.log({ emailError, userIDError });
       return;
-    } else {
-      setError({ ...error, userIdError: false });
     }
-    if (!user.email.includes("@student.sfbu.edu")) {
-      setError({ ...error, emailError: true });
-      return;
-    } else {
-      setError({ ...error, emailError: false });
-    }
+    setEmailError(false);
+    setUserIdError(false);
     try {
       const data = await axios.post(
         "https://e-voting-server-sfbu.herokuapp.com/signUp",
@@ -129,10 +132,10 @@ const SignUpForm = () => {
                 onChange={(e) => handleChange(e)}
                 required
               />
-              {error && error.userIdError && (
-                <small style={{ color: "red" }}>
-                  Invalid studentId. Please enter a valid userId.
-                </small>
+              {userIDError && (
+                <div style={{ color: "red" }}>
+                  Invalid student Id. Please enter a valid student Id.
+                </div>
               )}
             </div>
             <div className="formField">
@@ -149,11 +152,6 @@ const SignUpForm = () => {
                 onChange={(e) => handleChange(e)}
                 required
               />
-              {error && error.emailError && (
-                <small style={{ color: "red" }}>
-                  Invalid email. Please enter a valid email.
-                </small>
-              )}
             </div>
             <div className="formField">
               <label className="formFieldLabel" htmlFor="email">
@@ -169,6 +167,11 @@ const SignUpForm = () => {
                 onChange={(e) => handleChange(e)}
                 required
               />
+              {emailError && (
+                <div style={{ color: "red" }}>
+                  Invalid email. Please enter a valid email.
+                </div>
+              )}
             </div>
 
             <div className="formField">

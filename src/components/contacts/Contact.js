@@ -3,6 +3,10 @@ import GMap from "./GMap";
 import gowtham from "../../assets/gowtham.jpeg";
 import depali from "../../assets/depali.jpeg";
 import rakesh from "../../assets/rakesh.jpeg";
+import himavanth from "../../assets/himavanth.jpeg";
+import navya from "../../assets/navya.jpeg";
+import rahul from "../../assets/rahul.jpeg";
+import sundeep from "../../assets/sundeep.jpeg";
 import { fetchUserId } from "../../utils/loginUtils";
 import ToastComponent from "../common/ToastComponent";
 import axios from "axios";
@@ -10,6 +14,7 @@ import axios from "axios";
 const Contact = () => {
   const [query, setQuery] = useState({ myName: "", msg: "" });
   const [userId, setUserId] = useState("");
+  const [processing, setProcessing] = useState(false);
   const [toast, setToast] = useState({
     showToasty: false,
     msg: "",
@@ -27,6 +32,7 @@ const Contact = () => {
   };
 
   const onClickSend = async (e) => {
+    setProcessing(true);
     e.preventDefault();
     const req = { ...query, userId: userId };
     try {
@@ -48,6 +54,8 @@ const Contact = () => {
         msg: error.response.data,
         color: "red",
       });
+    } finally {
+      setProcessing(false);
     }
   };
 
@@ -111,10 +119,85 @@ const Contact = () => {
             />
             <div className="card-body">
               <h5 className="card-title">Rakesh Kasha</h5>
+              <p className="card-text">Designer</p>
+              <p className="card-text">
+                <small className="text-muted">
+                  {/* Responsible for quality testing of the project. */}
+                  Passionate in designing the website.
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="card-group mx-3">
+          <div className="card">
+            <img
+              src={navya}
+              className="card-img-top"
+              alt={navya}
+              height={400}
+              style={{ padding: "20px", borderRadius: "50%" }}
+            />
+            <div className="card-body">
+              <h5 className="card-title">Navya Kandimalla</h5>
               <p className="card-text">Lead Tester</p>
               <p className="card-text">
                 <small className="text-muted">
                   Responsible for quality testing of the project.
+                </small>
+              </p>
+            </div>
+          </div>
+          <div className="card">
+            <img
+              src={sundeep}
+              className="card-img-top"
+              alt={sundeep}
+              height={400}
+              style={{ padding: "20px", borderRadius: "50%" }}
+            />
+            <div className="card-body">
+              <h5 className="card-title">Sundeep Reddy Bapathu</h5>
+              <p className="card-text">Tester</p>
+              <p className="card-text">
+                <small className="text-muted">
+                  Responsible for testing the website.
+                </small>
+              </p>
+            </div>
+          </div>
+          <div className="card">
+            <img
+              src={himavanth}
+              className="card-img-top"
+              alt={himavanth}
+              height={400}
+              style={{ padding: "20px", borderRadius: "50%" }}
+            />
+            <div className="card-body">
+              <h5 className="card-title">Himavanth Reddy Putta</h5>
+              <p className="card-text">Developer</p>
+              <p className="card-text">
+                <small className="text-muted">
+                  Passionate on development of the website.
+                </small>
+              </p>
+            </div>
+          </div>
+          <div className="card">
+            <img
+              src={rahul}
+              className="card-img-top"
+              alt={rahul}
+              height={400}
+              style={{ padding: "20px", borderRadius: "50%" }}
+            />
+            <div className="card-body">
+              <h5 className="card-title">Rahul Kanaparthi</h5>
+              <p className="card-text">Business Analytics</p>
+              <p className="card-text">
+                <small className="text-muted">
+                  Responsible for gathering the business requirement.
                 </small>
               </p>
             </div>
@@ -170,19 +253,30 @@ const Contact = () => {
                   required
                 ></textarea>
               </div>
-              <button type="submit" className="btn btn-success mb-3">
-                Send
-              </button>
+              {toast.showToasty && (
+                <ToastComponent
+                  color={toast.color}
+                  showToasty={toast.showToasty}
+                  msg={toast.msg}
+                  onHide={onHideToast}
+                />
+              )}
+              {!processing ? (
+                <button type="submit" className="btn btn-success mb-3">
+                  Send
+                </button>
+              ) : (
+                <button className="btn btn-primary" type="button" disabled>
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  Sending...
+                </button>
+              )}
             </form>
           </div>
-          {toast.showToasty && (
-            <ToastComponent
-              color={toast.color}
-              showToasty={toast.showToasty}
-              msg={toast.msg}
-              onHide={onHideToast}
-            />
-          )}
         </div>
       </div>
     </div>

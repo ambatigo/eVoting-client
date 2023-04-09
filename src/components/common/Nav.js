@@ -18,6 +18,10 @@ const Nav = () => {
     navigate("/vote");
   };
 
+  const onClickCompanyLogo = () => {
+    window.location.replace("https://www.sfbu.edu/");
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-dark bg-dark"
@@ -29,7 +33,8 @@ const Nav = () => {
             src={sfbu}
             alt="sfbu"
             width={45}
-            style={{ borderRadius: "10px", padding: "5px" }}
+            style={{ borderRadius: "10px", padding: "5px", cursor: "pointer" }}
+            onClick={() => onClickCompanyLogo()}
           />
         </div>
 
