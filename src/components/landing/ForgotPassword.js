@@ -18,6 +18,8 @@ const ForgotPassword = () => {
     color: "red",
   });
 
+  const [generatingOTP, setGeneratingOTP] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,15 +27,30 @@ const ForgotPassword = () => {
     if (token != null) {
       navigate("/vote");
     }
-    sendForOTP();
   }, []);
 
+  const onClickGenerateOTP = () => {
+    sendForOTP();
+  };
+
   const sendForOTP = async () => {
+    setGeneratingOTP(true);
     try {
       const data = await axios.post(
         `https://e-voting-server-sfbu.herokuapp.com/generate-otp/${user.userId}`
       );
-    } catch (error) {}
+      if (data.status === 200) {
+        setToast({
+          showToasty: true,
+          msg: data.data,
+          color: "green",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setGeneratingOTP(false);
+    }
   };
 
   const handleChange = (event) => {
@@ -112,6 +129,28 @@ const ForgotPassword = () => {
                 onChange={(e) => handleChange(e)}
                 required
               />
+              {!generatingOTP ? (
+                <button
+                  onClick={() => onClickGenerateOTP()}
+                  className="btn btn-success btn-sm mb-3 mt-3"
+                  disabled={user.userId === ""}
+                >
+                  Generate OTP
+                </button>
+              ) : (
+                <button
+                  className="btn btn-success btn-sm mb-3 mt-3"
+                  type="button"
+                  disabled
+                >
+                  <span
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  Generating OTP...
+                </button>
+              )}
             </div>
 
             <div className="formField">
